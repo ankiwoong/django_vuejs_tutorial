@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from .forms import TodoForm
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -31,3 +32,7 @@ def todo_save(request):
                     form.save()
 
     return JsonResponse({})
+
+
+def index(request):
+    return render(request, 'todo/list.html')
