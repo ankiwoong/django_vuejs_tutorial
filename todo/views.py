@@ -1,6 +1,7 @@
 from .forms import TodoForm
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 
 from .models import Todo
@@ -17,6 +18,7 @@ def todo_fetch(request):
 
 
 @csrf_exempt
+@require_POST
 def todo_save(request):
     if request.body:
         data = json.loads(request.body)
@@ -24,7 +26,6 @@ def todo_save(request):
             todos = data['todos']
             Todo.objects.all().delete()
             for todo in todos:
-                print('todo', todo)
                 form = TodoForm(todo)
                 if form.is_valid():
                     form.save()
